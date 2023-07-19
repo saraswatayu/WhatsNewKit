@@ -85,9 +85,8 @@ extension WhatsNewView: View {
                         self.layout.scrollViewBottomContentInset
                     )
             }
-            #if os(iOS)
             .alwaysBounceVertical(false)
-            #endif
+            
             // Footer
             VStack {
                 Spacer()
@@ -125,9 +124,9 @@ private extension WhatsNewView {
     /// The Title View
     var title: some View {
         Text(
-            whatsNewText: self.whatsNew.title.text
+            text: self.whatsNew.title.text
         )
-        .font(.largeTitle.bold())
+        .font(.title.bold())
         .multilineTextAlignment(.center)
         .fixedSize(horizontal: false, vertical: true)
     }
@@ -221,10 +220,10 @@ private extension WhatsNewView {
             } label: {
                 ZStack(alignment: .center) {
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
-                        .fill(Color(UIColor.systemGroupedBackground))
-                    Text(whatsNewText: whatsNew.primaryAction.title)
+                        .fill(.black)
+                    Text(text: whatsNew.primaryAction.title)
                         .font(.system(.body).weight(.bold).monospaced())
-                        .foregroundColor(.primary)
+                        .foregroundColor(.white)
                         .padding([.top, .bottom], 16)
                 }
             }

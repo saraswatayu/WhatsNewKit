@@ -91,11 +91,13 @@ public extension View {
     ///   - onDismiss: The closure to execute when dismissing the sheet. Default value `nil`
     func whatsNewSheet(
         layout: WhatsNew.Layout? = nil,
+        onAppear: (() -> Void)? = nil,
         onDismiss: (() -> Void)? = nil
     ) -> some View {
         self.modifier(
             AutomaticWhatsNewSheetViewModifier(
                 layout: layout,
+                onAppear: onAppear,
                 onDismiss: onDismiss
             )
         )
@@ -112,6 +114,8 @@ private struct AutomaticWhatsNewSheetViewModifier: ViewModifier {
     
     /// The optional WhatsNew Layout
     let layout: WhatsNew.Layout?
+    
+    let onAppear: (() -> Void)?
     
     /// The optional closure to execute when dismissing the sheet
     let onDismiss: (() -> Void)?
@@ -144,6 +148,7 @@ private struct AutomaticWhatsNewSheetViewModifier: ViewModifier {
             ),
             onDismiss: self.onDismiss
         ) { whatsNew in
+            let _ = onAppear?()
             WhatsNewView(
                 whatsNew: whatsNew,
                 versionStore: self.whatsNewEnvironment.whatsNewVersionStore,

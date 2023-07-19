@@ -25,4 +25,8 @@ extension Text {
         }
     }
     
+    init(text: WhatsNew.Text) {
+        self.init(text.attributedString.string)
+    }
+    
 }
