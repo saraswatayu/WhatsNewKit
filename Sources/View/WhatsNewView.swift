@@ -158,13 +158,14 @@ private extension WhatsNewView {
                 Text(
                     whatsNewText: feature.title
                 )
-                .font(.subheadline.weight(.semibold))
+                .font(.body.bold())
                 .foregroundColor(.primary)
                 .fixedSize(horizontal: false, vertical: true)
+                
                 Text(
                     whatsNewText: feature.subtitle
                 )
-                .font(.subheadline)
+                .font(.body)
                 .foregroundColor(.secondary)
                 .fixedSize(horizontal: false, vertical: true)
             }
@@ -212,30 +213,22 @@ private extension WhatsNewView {
                 #endif
                 .foregroundColor(secondaryAction.foregroundColor)
             }
-            // Primary Action Button
-            Button(
-                action: {
-                    // Invoke HapticFeedback, if available
-                    self.whatsNew.primaryAction.hapticFeedback?()
-                    // Dismiss
-                    self.presentationMode.wrappedValue.dismiss()
-                    // Invoke on dismiss, if available
-                    self.whatsNew.primaryAction.onDismiss?()
+            
+            Button {
+                whatsNew.primaryAction.hapticFeedback?()
+                presentationMode.wrappedValue.dismiss()
+                whatsNew.primaryAction.onDismiss?()
+            } label: {
+                ZStack(alignment: .center) {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .fill(Color(UIColor.systemGroupedBackground))
+                    Text(whatsNewText: whatsNew.primaryAction.title)
+                        .font(.system(.body).weight(.bold).monospaced())
+                        .foregroundColor(.primary)
+                        .padding([.top, .bottom], 16)
                 }
-            ) {
-                Text(
-                    whatsNewText: self.whatsNew.primaryAction.title
-                )
             }
-            .buttonStyle(
-                PrimaryButtonStyle(
-                    primaryAction: self.whatsNew.primaryAction,
-                    layout: self.layout
-                )
-            )
-            #if os(macOS)
-            .keyboardShortcut(.defaultAction)
-            #endif
+            .fixedSize(horizontal: false, vertical: true)
         }
     }
     
